@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Doctor Form</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+	<div>
+		<a th:href="@{/}">Home</a> | <a th:href="@{/patients}">Patients</a> |
+		<a th:href="@{/doctors}">Doctors</a> | <a th:href="@{/appointments}">Appointments</a>
+		| <a th:href="@{/bills}">Bills</a>
+	</div>
+
+	<br>
+
+	<h2>Doctor Form</h2>
+
+	<form th:action="@{/doctors/save}" th:object="${doctor}" method="post">
+
+		<input type="hidden" th:field="*{id}" /> Name: <input type="text"
+			th:field="*{name}" /> <br>
+		<br> Specialization: <input type="text"
+			th:field="*{specialization}" /> <br>
+		<br> Contact Number: <input type="text"
+			th:field="*{contactNumber}" /> <span
+			th:if="${#fields.hasErrors('contactNumber')}"
+			th:errors="*{contactNumber}"></span> <br>
+		<br> Availability: <select th:field="*{available}">
+			<option th:value="true">Available</option>
+			<option th:value="false">Not Available</option>
+		</select> <br>
+		<br>
+
+		<button type="submit">Save</button>
+	</form>
+
+	<a th:href="@{/doctors}">Back to List</a>
+
+</body>
+</html>

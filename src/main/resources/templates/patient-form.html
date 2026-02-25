@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Patient Form</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div>
+    <a th:href="@{/}">Home</a> |
+    <a th:href="@{/patients}">Patients</a> |
+    <a th:href="@{/doctors}">Doctors</a> |
+    <a th:href="@{/appointments}">Appointments</a> |
+    <a th:href="@{/bills}">Bills</a>
+</div>
+
+<br>
+	<h2>Patient Form</h2>
+
+	<form th:action="@{/patients/save}" th:object="${patient}"
+		method="post">
+
+		<input type="hidden" th:field="*{id}" /> Name: <input type="text"
+			th:field="*{name}" /> <span th:if="${#fields.hasErrors('name')}"
+			th:errors="*{name}"></span> <br>
+		<br> Date of Birth: <input type="date" th:field="*{dateOfBirth}" />
+		<span th:if="${#fields.hasErrors('dateOfBirth')}"
+			th:errors="*{dateOfBirth}" style="color: red"> </span> <br>
+		<br> Address: <input type="text" th:field="*{address}" /> <br>
+		<br> Contact Number: <input type="text"
+			th:field="*{contactNumber}" /> <span
+			th:if="${#fields.hasErrors('contactNumber')}"
+			th:errors="*{contactNumber}"></span> <br>
+		<br> Medical History:
+		<textarea th:field="*{medicalHistory}"></textarea>
+		<br>
+		<br>
+
+		<button type="submit">Save</button>
+	</form>
+
+	<a th:href="@{/patients}">Back to List</a>
+
+</body>
+</html>

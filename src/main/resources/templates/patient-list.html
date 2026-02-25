@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Patient List</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+	<div>
+		<a th:href="@{/}">Home</a> | <a th:href="@{/patients}">Patients</a> |
+		<a th:href="@{/doctors}">Doctors</a> | <a th:href="@{/appointments}">Appointments</a>
+		| <a th:href="@{/bills}">Bills</a>
+	</div>
+
+	<br>
+
+	<h2>Patients</h2>
+
+
+	<a th:href="@{/patients/new}">Add New Patient</a>
+	<br>
+	<br>
+
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>DOB</th>
+			<th>Address</th>
+			<th>Contact</th>
+			<th>Medical History</th>
+			<th>Actions</th>
+		</tr>
+
+		<tr th:each="p : ${patients}">
+			<td th:text="${p.id}"></td>
+			<td th:text="${p.name}"></td>
+			<td th:text="${#temporals.format(p.dateOfBirth, 'dd-MM-yyyy')}"></td>
+			<td th:text="${p.address}"></td>
+			<td th:text="${p.contactNumber}"></td>
+			<td th:text="${p.medicalHistory}"></td>
+			<td><a th:href="@{/patients/edit/{id}(id=${p.id})}">Edit</a> | <a
+				th:href="@{/patients/delete/{id}(id=${p.id})}"
+				onclick="return confirm('Are you sure?')"> Delete </a></td>
+		</tr>
+	</table>
+
+</body>
+</html>

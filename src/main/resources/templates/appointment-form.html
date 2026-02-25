@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Appointments</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+	<div>
+		<a th:href="@{/}">Home</a> | <a th:href="@{/patients}">Patients</a> |
+		<a th:href="@{/doctors}">Doctors</a> | <a th:href="@{/appointments}">Appointments</a>
+		| <a th:href="@{/bills}">Bills</a>
+	</div>
+
+	<br>
+
+	<h2>Appointments</h2>
+	<p style="color: red;" th:text="${error}"></p>
+	<form th:action="@{/appointments/save}" th:object="${appointment}"
+		method="post">
+
+		<input type="hidden" th:field="*{id}" /> Select Patient:
+		<!-- Patient -->
+		<select th:field="*{patient.id}">
+			<option value="">-- Select Patient --</option>
+			<option th:each="p : ${patients}" th:value="${p.id}"
+				th:text="${p.name}"></option>
+		</select> <br> <br>
+
+		<!-- Doctor -->
+		Select Doctor: <select th:field="*{doctor.id}">
+			<option value="">-- Select Doctor --</option>
+			<option th:each="d : ${doctors}" th:value="${d.id}"
+				th:text="${d.name}"></option>
+		</select> <br> <br>
+
+		<!-- Date Time -->
+		Date Time: <input type="datetime-local"
+			th:field="*{appointmentDateTime}"
+			th:attr="min=${#temporals.format(#temporals.createNow(),'yyyy-MM-dd''T''HH:mm')}" />
+		<span th:if="${#fields.hasErrors('appointmentDateTime')}"
+			th:errors="*{appointmentDateTime}" style="color: red"> <br>
+		</span> <br> <br>
+		<div>
+			<label>Status:</label> <select th:field="*{status}">
+				<option value="Scheduled">Scheduled</option>
+				<option value="Completed">Completed</option>
+				<option value="Cancelled">Cancelled</option>
+			</select>
+		</div>
+		<br> <br>
+
+		<button type="submit">Book</button>
+	</form>
+</body>

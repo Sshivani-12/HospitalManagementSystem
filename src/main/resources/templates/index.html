@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Hospital Management System</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+	<div>
+		<a th:href="@{/}">Home</a> | <a th:href="@{/patients}">Patients</a> |
+		<a th:href="@{/doctors}">Doctors</a> | <a th:href="@{/appointments}">Appointments</a>
+		| <a th:href="@{/bills}">Bills</a>
+	</div>
+	<br>
+	<h2>Hospital Management System</h2>
+	<br>
+	<button onclick="location.href='/patients'">Manage Patients</button>
+	<br>
+	<br>
+	<button onclick="location.href='/doctors'">Manage Doctors</button>
+	<br>
+	<br>
+	<button onclick="location.href='/appointments'">Manage
+		Appointments</button>
+	<br>
+	<br>
+	<button onclick="location.href='/bills'">Bills</button>
+
+</body>
+</html>

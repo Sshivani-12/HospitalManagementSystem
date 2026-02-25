@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bill List</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<h2>Bills</h2>
+
+<a th:href="@{/}">Home</a> |
+<a th:href="@{/appointments}">Appointments</a>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Patient</th>
+        <th>Doctor</th>
+        <th>Appointment</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="b : ${bills}">
+        <td th:text="${b.id}"></td>
+        <td th:text="${b.patient.name}"></td>
+        <td th:text="${b.doctor.name}"></td>
+        <td th:text="${b.appointment.id}"></td>
+        <td th:text="${b.amount}"></td>
+        <td th:text="${b.paymentStatus}"></td>
+        <td>
+            <a th:href="@{/bills/pay/{id}(id=${b.id})}">
+                Mark Paid
+            </a> |
+            <a th:href="@{/bills/delete/{id}(id=${b.id})}">
+                Delete
+            </a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

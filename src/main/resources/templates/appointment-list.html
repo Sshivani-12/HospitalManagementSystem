@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Appointments</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+	<div>
+		<a th:href="@{/}">Home</a> | <a th:href="@{/patients}">Patients</a> |
+		<a th:href="@{/doctors}">Doctors</a> | <a th:href="@{/appointments}">Appointments</a>
+		| <a th:href="@{/bills}">Bills</a>
+	</div>
+
+	<br>
+
+	<h2>Appointments</h2>
+
+	<a th:href="@{/appointments/new}">Book New Appointment</a>
+
+	<br>
+	<br>
+
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>Patient</th>
+			<th>Doctor</th>
+			<th>Date & Time</th>
+			<th>Status</th>
+			<th>Action</th>
+		</tr>
+
+		<tr th:each="a : ${appointments}">
+
+			<td th:text="${a.id}"></td>
+			<td th:text="${a.patient.name}"></td>
+			<td th:text="${a.doctor.name}"></td>
+
+			<td
+				th:text="${#temporals.format(a.appointmentDateTime, 'dd-MM-yyyy HH:mm')}"></td>
+
+			<!-- STATUS -->
+			<td th:text="${a.status}"
+				th:style="${a.status == 'Completed'} ? 'color:green;' :
+                      (${a.status == 'Cancelled'} ? 'color:red;' :
+                      'color:blue;')">
+			</td>
+
+			<!-- ACTIONS -->
+			<td><a th:href="@{/appointments/edit/{id}(id=${a.id})}">Edit</a>
+
+				<!-- Scheduled actions --> <span th:if="${a.status == 'Scheduled'}">
+					| <a th:href="@{/appointments/complete/{id}(id=${a.id})}"> Mark
+						Completed </a> | <a th:href="@{/appointments/cancel/{id}(id=${a.id})}">
+						Cancel </a>
+			</span> <!-- Completed action --> <span th:if="${a.status == 'Completed'}">
+					| <a th:href="@{/bills/generate/{id}(id=${a.id})}"> Generate
+						Bill </a>
+			</span> | <a th:href="@{/appointments/delete/{id}(id=${a.id})}"
+				onclick="return confirm('Are you sure?')"> Delete </a></td>
+
+		</tr>
+	</table>
+
+</body>
+</html>
