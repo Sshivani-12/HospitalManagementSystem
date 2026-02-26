@@ -1,18 +1,65 @@
 pipeline {
+
     agent any
 
-    tools {
-        maven 'Maven3'
-        jdk 'JDK17'
+    triggers {
+        pollSCM('H/2 * * * *')   // Check Git every 2 minutes
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        disableConcurrentBuilds()
+        timestamps()
+    }
+
+    environment {
+        MAVEN_OPTS = '-Dmaven.test.failure.ignore=false'
     }
 
     stages {
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                bat 'mvn clean install'
+                echo "Checking out source code..."
+                checkout scm
             }
         }
 
+        stage('Build') {
+            steps {
+                echo "Building project..."
+                bat 'mvnw.cmd clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+                bat 'mvnw.cmd test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo "Packaging application..."
+                bat 'mvnw.cmd clean package -DskipTests'
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo "Build Successful ✅"
+        }
+
+        failure {
+            echo "Build Failed ❌"
+        }
+
+        always {
+            echo "Archiving artifacts..."
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
     }
 }
