@@ -45,6 +45,12 @@ pipeline {
                 bat 'mvnw.cmd clean package -DskipTests'
             }
         }
+	stage('Verify Java') {
+    steps {
+        bat 'echo %JAVA_HOME%'
+        bat 'java -version'
+    }
+}
     }
 
     post {
